@@ -28,6 +28,7 @@
 - Imports internos devem usar alias `@/` para arquivos em `src`.
 - Variáveis de ambiente obrigatórias devem ser acessadas por helpers em `src/lib/config/env.ts` (evitar `process.env` espalhado).
 - A base visual usa Tailwind; componentes e páginas devem manter estilo minimalista claro com alto contraste.
+- Todo novo código implementado deve incluir testes unitários correspondentes em `src/tests`.
 - Mudanças de fase do roadmap devem atualizar este arquivo em uma seção de status.
 - Encerramento obrigatório de fase: executar `npm run phase:close` e, em seguida, criar branch de trabalho, realizar commit e push para abertura automática de PR para `master`.
 
@@ -42,3 +43,8 @@
   - Modelagem Prisma implementada para usuários, catálogo, carrinho, pedidos, pagamentos e endereços.
   - Scripts de banco adicionados (`db:generate`, `db:migrate`, `db:seed`).
   - Seed idempotente de categorias e produtos mockados criado em `prisma/seed.mjs`.
+- **Fase 3 (Experiência de compra): concluída**
+  - Home com vitrine dinâmica, busca e atalhos de categoria implementada.
+  - PLP com filtros por categoria, busca textual e ordenação por preço.
+  - PDP implementada com detalhes de produto e adição ao carrinho.
+  - Carrinho persistente por sessão e checkout como convidado com criação de pedido.
