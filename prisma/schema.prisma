@@ -1,0 +1,215 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum CartStatus {
+  ACTIVE
+  CONVERTED
+  ABANDONED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+enum PaymentMethod {
+  CARD
+  PIX
+}
+
+enum PaymentStatus {
+  REQUIRES_ACTION
+  APPROVED
+  FAILED
+  REFUNDED
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  role         UserRole  @default(CUSTOMER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  addresses    Address[]
+  cart         Cart?
+  orders       Order[]
+}
+
+model Category {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  products    ProductCategory[]
+}
+
+model Product {
+  id                  String            @id @default(cuid())
+  name                String
+  slug                String            @unique
+  sku                 String            @unique
+  shortDescription    String
+  description         String
+  priceCents          Int
+  compareAtPriceCents Int?
+  currency            String            @default("BRL")
+  stockQuantity       Int               @default(0)
+  isActive            Boolean           @default(true)
+  images              Json?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  categories          ProductCategory[]
+  cartItems           CartItem[]
+  orderItems          OrderItem[]
+}
+
+model ProductCategory {
+  productId  String
+  categoryId String
+  assignedAt DateTime @default(now())
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([productId, categoryId])
+}
+
+model Address {
+  id            String   @id @default(cuid())
+  userId        String
+  label         String?
+  recipientName String
+  street        String
+  number        String
+  complement    String?
+  district      String
+  city          String
+  state         String
+  postalCode    String
+  country       String   @default("BR")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?    @unique
+  sessionId String?    @unique
+  status    CartStatus @default(ACTIVE)
+  expiresAt DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items     CartItem[]
+}
+
+model CartItem {
+  id             String   @id @default(cuid())
+  cartId         String
+  productId      String
+  quantity       Int      @default(1)
+  unitPriceCents Int
+  currency       String   @default("BRL")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  cart           Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id             String         @id @default(cuid())
+  orderNumber    String         @unique
+  userId         String?
+  guestEmail     String?
+  status         OrderStatus    @default(PENDING)
+  subtotalCents  Int
+  shippingCents  Int
+  discountCents  Int            @default(0)
+  totalCents     Int
+  currency       String         @default("BRL")
+  paymentMethod  PaymentMethod
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  placedAt       DateTime       @default(now())
+  user           User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items          OrderItem[]
+  payments       Payment[]
+  orderAddresses OrderAddress[]
+}
+
+model OrderAddress {
+  id            String      @id @default(cuid())
+  orderId       String
+  type          AddressType
+  recipientName String
+  street        String
+  number        String
+  complement    String?
+  district      String
+  city          String
+  state         String
+  postalCode    String
+  country       String      @default("BR")
+  createdAt     DateTime    @default(now())
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, type])
+}
+
+model OrderItem {
+  id             String   @id @default(cuid())
+  orderId        String
+  productId      String?
+  productName    String
+  productSku     String
+  quantity       Int
+  unitPriceCents Int
+  totalCents     Int
+  createdAt      DateTime @default(now())
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product        Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String
+  provider          String        @default("stripe")
+  providerPaymentId String?       @unique
+  method            PaymentMethod
+  status            PaymentStatus @default(REQUIRES_ACTION)
+  amountCents       Int
+  currency          String        @default("BRL")
+  metadata          Json?
+  paidAt            DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
