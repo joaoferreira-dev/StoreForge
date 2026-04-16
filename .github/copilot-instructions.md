@@ -10,6 +10,9 @@
 - Typecheck: `npm run typecheck`
 - Testes completos: `npm run test`
 - Teste único (exemplo real): `npm run test:single`
+- Gerar cliente Prisma: `npm run db:generate`
+- Rodar migrações locais: `npm run db:migrate`
+- Popular banco com seed: `npm run db:seed`
 
 ## Arquitetura (visão geral)
 
@@ -26,7 +29,7 @@
 - Variáveis de ambiente obrigatórias devem ser acessadas por helpers em `src/lib/config/env.ts` (evitar `process.env` espalhado).
 - A base visual usa Tailwind; componentes e páginas devem manter estilo minimalista claro com alto contraste.
 - Mudanças de fase do roadmap devem atualizar este arquivo em uma seção de status.
-- Encerramento obrigatório de fase: executar `npm run phase:close` antes de marcar a fase como concluída.
+- Encerramento obrigatório de fase: executar `npm run phase:close` e, em seguida, criar branch de trabalho, realizar commit e push para abertura automática de PR para `master`.
 
 ## Status de execução do roadmap
 
@@ -35,3 +38,7 @@
   - Scripts de lint/typecheck/test/build definidos.
   - CI inicial em `.github/workflows/ci.yml`.
   - Padrão de variáveis de ambiente com `.env.example` e helper central.
+- **Fase 2 (Núcleo de domínio): concluída**
+  - Modelagem Prisma implementada para usuários, catálogo, carrinho, pedidos, pagamentos e endereços.
+  - Scripts de banco adicionados (`db:generate`, `db:migrate`, `db:seed`).
+  - Seed idempotente de categorias e produtos mockados criado em `prisma/seed.mjs`.

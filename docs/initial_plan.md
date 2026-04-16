@@ -39,17 +39,39 @@ Abordagem:
 1. Fundação do projeto
    - Setup do monorepo/single-repo, lint, formatação, scripts, CI básico.
    - Definição de padrões de pastas, ambiente e variáveis.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
 2. Núcleo de domínio
    - Modelagem de dados (usuários, produtos, categorias, carrinho, pedidos, pagamentos).
    - Migrações e seed com produtos mockados.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
 3. Experiência de compra (frontend)
    - Home, listagem, PDP, busca, filtros, carrinho e checkout.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
 4. Operação (admin/backoffice)
    - CRUD de catálogo, acompanhamento de pedidos e controle de status.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
 5. Qualidade, performance e segurança
    - Testes essenciais, hardening de auth, validação de input, SEO técnico e métricas.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
 6. Go-live controlado
    - Deploy staging, validações finais, produção e monitoramento inicial.
+   - Encerramento da fase: criar branch de trabalho, realizar commit e push para abrir PR automático para `master`.
+
+## Status de execução do roadmap
+
+### Fase 1 (Fundação) — concluída
+- Setup base do projeto com Next.js + TypeScript + Tailwind.
+- Scripts de lint, typecheck, testes e build definidos.
+- CI inicial e helper central de variáveis de ambiente.
+
+### Fase 2 (Núcleo de domínio) — concluída
+**Introdução breve:** nesta fase foi criada a base de domínio e persistência do e-commerce para suportar catálogo, carrinho e pedidos nas próximas entregas. A modelagem foi estruturada em Prisma com foco em evolução incremental do MVP.
+
+**Critérios de aceite da fase:**
+1. Modelagem de dados cobre usuários, produtos, categorias, carrinho, pedidos, pagamentos e endereços.
+2. Projeto possui base de migração e geração de cliente Prisma via scripts de banco.
+3. Seed idempotente popula catálogo mockado para desenvolvimento local.
+4. Encerramento técnico da fase executado com lint, typecheck e testes.
 
 ## Decisões confirmadas
 - Modelo da loja: B2C, vendedor único.
