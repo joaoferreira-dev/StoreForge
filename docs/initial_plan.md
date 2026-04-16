@@ -73,6 +73,16 @@ Abordagem:
 3. Seed idempotente popula catálogo mockado para desenvolvimento local.
 4. Encerramento técnico da fase executado com lint, typecheck e testes.
 
+### Fase 3 (Experiência de compra) — concluída
+**Introdução breve:** nesta fase foi entregue a experiência principal de compra no frontend, conectando catálogo, carrinho e checkout sobre o domínio já modelado na fase anterior.
+
+**Critérios de aceite da fase:**
+1. Home com vitrine de produtos, busca e navegação por categorias.
+2. PLP com busca textual, filtro por categoria e ordenação por preço.
+3. PDP com detalhes do produto e ação de adicionar ao carrinho.
+4. Carrinho persistente por sessão e checkout de convidado com criação de pedido.
+5. Encerramento técnico da fase executado com lint, typecheck e testes.
+
 ## Decisões confirmadas
 - Modelo da loja: B2C, vendedor único.
 - Checkout: convidado permitido.
@@ -85,6 +95,7 @@ Abordagem:
 - Admin do MVP: catálogo + pedidos + clientes.
 - Compliance inicial: LGPD + termos/políticas; sem emissão automática de NF no MVP.
 - Visual: minimalista claro, alto contraste e foco em conversão.
+- Todo novo código implementado deve incluir testes unitários correspondentes.
 
 ## Todos planejados
 1. Escolher stack final e arquitetura de execução do MVP.

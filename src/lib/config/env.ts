@@ -10,3 +10,7 @@ export const appConfig = {
   appName: getRequiredEnv("NEXT_PUBLIC_APP_NAME", "Store"),
   appUrl: getRequiredEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000")
 };
+
+export const runtimeConfig = {
+  hasDatabaseUrl: Boolean(process.env.DATABASE_URL)
+};
