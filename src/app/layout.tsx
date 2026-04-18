@@ -35,6 +35,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <Link href="/checkout" className="hover:text-gray-900">
                 Checkout
               </Link>
+              <Link href="/admin" className="hover:text-gray-900">
+                Admin
+              </Link>
             </nav>
           </div>
         </header>
