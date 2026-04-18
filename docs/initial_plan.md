@@ -83,6 +83,16 @@ Abordagem:
 4. Carrinho persistente por sessão e checkout de convidado com criação de pedido.
 5. Encerramento técnico da fase executado com lint, typecheck e testes.
 
+### Fase 4 (Operação / admin-backoffice) — concluída
+**Introdução breve:** nesta fase foi implementada a camada operacional do MVP para gestão de catálogo e pedidos no backoffice.
+
+**Critérios de aceite da fase:**
+1. Painel administrativo disponível em `/admin` com visão operacional de pedidos.
+2. CRUD de categorias implementado em `/admin/categorias`.
+3. CRUD de produtos implementado em `/admin/produtos`, incluindo associação a categorias.
+4. Atualização de status de pedidos disponível no painel de administração.
+5. Encerramento técnico da fase executado com lint, typecheck e testes.
+
 ## Decisões confirmadas
 - Modelo da loja: B2C, vendedor único.
 - Checkout: convidado permitido.

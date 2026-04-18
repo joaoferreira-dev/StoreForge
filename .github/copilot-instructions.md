@@ -29,6 +29,8 @@
 - Variáveis de ambiente obrigatórias devem ser acessadas por helpers em `src/lib/config/env.ts` (evitar `process.env` espalhado).
 - A base visual usa Tailwind; componentes e páginas devem manter estilo minimalista claro com alto contraste.
 - Todo novo código implementado deve incluir testes unitários correspondentes em `src/tests`.
+- No início de cada pacote de alterações, criar uma nova branch de trabalho antes de implementar mudanças.
+- Commit e push devem ser feitos somente no final, após 100% das finalizações e ajustes concluídos, sempre na branch criada para aquele pacote.
 - Mudanças de fase do roadmap devem atualizar este arquivo em uma seção de status.
 - Encerramento obrigatório de fase: executar `npm run phase:close` e, em seguida, criar branch de trabalho, realizar commit e push para abertura automática de PR para `master`.
 
@@ -48,3 +50,8 @@
   - PLP com filtros por categoria, busca textual e ordenação por preço.
   - PDP implementada com detalhes de produto e adição ao carrinho.
   - Carrinho persistente por sessão e checkout como convidado com criação de pedido.
+- **Fase 4 (Operação / admin-backoffice): concluída**
+  - Painel operacional em `/admin` com acompanhamento de pedidos.
+  - CRUD de categorias implementado em `/admin/categorias`.
+  - CRUD de produtos implementado em `/admin/produtos` com associação de categorias.
+  - Controle de status de pedidos disponível para operação.
