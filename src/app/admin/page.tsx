@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { updateOrderStatusAction } from "@/app/actions/admin";
+import { requireAdminPageAccess } from "@/lib/auth/admin-guard";
 import { ORDER_STATUS_OPTIONS, getBackofficeSnapshot } from "@/lib/admin/backoffice";
 import { formatCurrency } from "@/lib/store/currency";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
+  await requireAdminPageAccess();
   const snapshot = await getBackofficeSnapshot();
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-6xl px-6 py-10">
       <header className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">Fase 4</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">Fase 5</p>
         <h1 className="text-2xl font-semibold text-gray-900">Operação do e-commerce</h1>
         <p className="mt-2 text-sm text-gray-600">Backoffice para catálogo e acompanhamento de pedidos.</p>
       </header>

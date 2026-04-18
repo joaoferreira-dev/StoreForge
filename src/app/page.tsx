@@ -10,7 +10,7 @@ export default async function HomePage() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-6xl px-6 py-10">
       <header className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">Fase 4 em implementação</p>
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">Fase 5 em implementação</p>
         <h1 className="text-3xl font-bold">{appConfig.appName}: vitrine dinâmica para o MVP</h1>
         <p className="mt-3 max-w-2xl text-gray-600">
           Busque produtos, navegue por categoria e monte seu carrinho com checkout em múltiplas etapas.
