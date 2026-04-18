@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { createProductAction, deleteProductAction, updateProductAction } from "@/app/actions/admin";
+import { requireAdminPageAccess } from "@/lib/auth/admin-guard";
 import { getBackofficeSnapshot } from "@/lib/admin/backoffice";
 import { centsToInputValue } from "@/lib/admin/form-parsers";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
+  await requireAdminPageAccess();
   const snapshot = await getBackofficeSnapshot();
 
   return (

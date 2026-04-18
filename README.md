@@ -18,6 +18,12 @@ Outros comandos:
 - `npm run test`
 - `npm run test:single`
 
+## Admin (fase 5)
+
+- Configure `ADMIN_EMAIL`, `ADMIN_PASSWORD` e `AUTH_SECRET` no ambiente.
+- Acesso do backoffice via `/admin/login`.
+- O menu "Admin" só aparece quando a sessão administrativa está autenticada.
+
 ## Estrutura inicial
 
 - `src/app`: rotas e layouts do App Router.

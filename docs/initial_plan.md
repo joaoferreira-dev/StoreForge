@@ -93,6 +93,17 @@ Abordagem:
 4. Atualização de status de pedidos disponível no painel de administração.
 5. Encerramento técnico da fase executado com lint, typecheck e testes.
 
+### Fase 5 (Qualidade, performance e segurança) — concluída
+**Introdução breve:** nesta fase o projeto recebeu hardening de acesso administrativo, reforço de validações de checkout, melhorias de SEO técnico e endpoint de métricas operacionais.
+
+**Critérios de aceite da fase:**
+1. Admin protegido por login e sessão, com checagem de autorização nas rotas e server actions.
+2. Usuário sem sessão admin não visualiza entrada de admin no menu principal.
+3. Checkout com validação de e-mail/CEP e decremento de estoque com condição atômica para evitar overselling.
+4. SEO técnico com geração de `robots.txt` e `sitemap.xml`.
+5. Endpoint de métricas operacionais em `/api/metrics` restrito a sessão admin.
+6. Encerramento técnico da fase executado com lint, typecheck e testes.
+
 ## Decisões confirmadas
 - Modelo da loja: B2C, vendedor único.
 - Checkout: convidado permitido.

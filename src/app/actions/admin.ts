@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db/prisma";
+import { requireAdminActionAccess } from "@/lib/auth/admin-guard";
 import { runtimeConfig } from "@/lib/config/env";
 import {
   parseBooleanFromCheckbox,
@@ -30,6 +31,7 @@ function revalidateBackofficeAndStore() {
 }
 
 export async function createCategoryAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const name = parseRequiredString(formData, "name", "nome");
@@ -48,6 +50,7 @@ export async function createCategoryAction(formData: FormData) {
 }
 
 export async function updateCategoryAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const categoryId = parseRequiredString(formData, "categoryId", "categoria");
@@ -68,6 +71,7 @@ export async function updateCategoryAction(formData: FormData) {
 }
 
 export async function deleteCategoryAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const categoryId = parseRequiredString(formData, "categoryId", "categoria");
@@ -80,6 +84,7 @@ export async function deleteCategoryAction(formData: FormData) {
 }
 
 export async function createProductAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const name = parseRequiredString(formData, "name", "nome");
@@ -120,6 +125,7 @@ export async function createProductAction(formData: FormData) {
 }
 
 export async function updateProductAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const productId = parseRequiredString(formData, "productId", "produto");
@@ -169,6 +175,7 @@ export async function updateProductAction(formData: FormData) {
 }
 
 export async function deleteProductAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const productId = parseRequiredString(formData, "productId", "produto");
@@ -181,6 +188,7 @@ export async function deleteProductAction(formData: FormData) {
 }
 
 export async function updateOrderStatusAction(formData: FormData) {
+  await requireAdminActionAccess();
   ensureDatabaseConfigured();
 
   const orderId = parseRequiredString(formData, "orderId", "pedido");

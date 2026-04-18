@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { adminLogoutAction } from "@/app/actions/admin-auth";
+import { isAdminAuthenticated } from "@/lib/auth/admin-session";
 import { appConfig } from "@/lib/config/env";
 import "./globals.css";
 
@@ -13,7 +15,9 @@ type RootLayoutProps = Readonly<{
   children: ReactNode;
 }>;
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const isAdmin = await isAdminAuthenticated();
+
   return (
     <html lang="pt-BR">
       <body className="bg-gray-50 text-gray-900 antialiased">
@@ -35,9 +39,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <Link href="/checkout" className="hover:text-gray-900">
                 Checkout
               </Link>
-              <Link href="/admin" className="hover:text-gray-900">
-                Admin
-              </Link>
+              {isAdmin ? (
+                <>
+                  <Link href="/admin" className="hover:text-gray-900">
+                    Admin
+                  </Link>
+                  <form action={adminLogoutAction}>
+                    <button type="submit" className="hover:text-gray-900">
+                      Sair admin
+                    </button>
+                  </form>
+                </>
+              ) : null}
             </nav>
           </div>
         </header>

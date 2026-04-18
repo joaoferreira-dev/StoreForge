@@ -12,5 +12,6 @@ export const appConfig = {
 };
 
 export const runtimeConfig = {
-  hasDatabaseUrl: Boolean(process.env.DATABASE_URL)
+  hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
+  hasAdminCredentials: Boolean(process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD && process.env.AUTH_SECRET)
 };

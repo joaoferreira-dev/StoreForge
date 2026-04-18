@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { createCategoryAction, deleteCategoryAction, updateCategoryAction } from "@/app/actions/admin";
+import { requireAdminPageAccess } from "@/lib/auth/admin-guard";
 import { getBackofficeSnapshot } from "@/lib/admin/backoffice";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminCategoriesPage() {
+  await requireAdminPageAccess();
   const snapshot = await getBackofficeSnapshot();
 
   return (

@@ -55,3 +55,9 @@
   - CRUD de categorias implementado em `/admin/categorias`.
   - CRUD de produtos implementado em `/admin/produtos` com associação de categorias.
   - Controle de status de pedidos disponível para operação.
+- **Fase 5 (Qualidade, performance e segurança): concluída**
+  - Login e sessão para admin com autorização nas rotas e actions de backoffice.
+  - Opção de menu Admin exibida apenas com sessão administrativa ativa.
+  - Checkout com validação de e-mail/CEP e proteção contra overselling por decremento condicional.
+  - SEO técnico com `robots.txt` e `sitemap.xml`.
+  - Endpoint `/api/metrics` para métricas operacionais com acesso restrito a admin.

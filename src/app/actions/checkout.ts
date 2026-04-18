@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
+import { parseGuestEmail, parsePostalCode, parseRequiredString } from "@/lib/store/checkout-validation";
 import { getSessionIdFromRequest } from "@/lib/store/cart";
 
 const DEFAULT_SHIPPING_CENTS = 1990;
@@ -19,33 +20,20 @@ function generateOrderNumber() {
   return `SF-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`;
 }
 
-function parseRequiredString(value: FormDataEntryValue | null, fieldName: string) {
-  if (typeof value !== "string") {
-    throw new Error(`Campo obrigatório: ${fieldName}`);
-  }
-
-  const normalized = value.trim();
-  if (!normalized) {
-    throw new Error(`Campo obrigatório: ${fieldName}`);
-  }
-
-  return normalized;
-}
-
 export async function completeCheckoutAction(formData: FormData) {
   const sessionId = await getSessionIdFromRequest();
   if (!sessionId) {
     throw new Error("Sessão de carrinho não encontrada.");
   }
 
-  const guestEmail = parseRequiredString(formData.get("guestEmail"), "email");
+  const guestEmail = parseGuestEmail(formData.get("guestEmail"));
   const recipientName = parseRequiredString(formData.get("recipientName"), "nome");
   const street = parseRequiredString(formData.get("street"), "rua");
   const number = parseRequiredString(formData.get("number"), "número");
   const district = parseRequiredString(formData.get("district"), "bairro");
   const city = parseRequiredString(formData.get("city"), "cidade");
   const state = parseRequiredString(formData.get("state"), "estado");
-  const postalCode = parseRequiredString(formData.get("postalCode"), "CEP");
+  const postalCode = parsePostalCode(formData.get("postalCode"));
   const complementValue = formData.get("complement");
   const complement =
     typeof complementValue === "string" && complementValue.trim().length > 0
@@ -81,12 +69,6 @@ export async function completeCheckoutAction(formData: FormData) {
   const orderNumber = generateOrderNumber();
 
   const order = await prisma.$transaction(async (tx) => {
-    for (const item of cart.items) {
-      if (item.quantity > item.product.stockQuantity) {
-        throw new Error(`Estoque insuficiente para ${item.product.name}.`);
-      }
-    }
-
     const createdOrder = await tx.order.create({
       data: {
         orderNumber,
@@ -150,14 +132,23 @@ export async function completeCheckoutAction(formData: FormData) {
     });
 
     for (const item of cart.items) {
-      await tx.product.update({
-        where: { id: item.productId },
+      const decrementResult = await tx.product.updateMany({
+        where: {
+          id: item.productId,
+          stockQuantity: {
+            gte: item.quantity
+          }
+        },
         data: {
           stockQuantity: {
             decrement: item.quantity
           }
         }
       });
+
+      if (decrementResult.count === 0) {
+        throw new Error(`Estoque insuficiente para ${item.product.name}.`);
+      }
     }
 
     await tx.cart.update({
